@@ -24,12 +24,12 @@ def load_data(path):
     df = pd.read_csv(path)
     return df
 
-# df_book = load_data("children_book_processed_wauthor.csv")
-df_book_item = load_data("children_book_collab.csv")
+# df_book = load_data("data/children_book_processed_wauthor.csv")
+df_book_item = load_data("data/children_book_collab.csv")
 
 # @st.cache
 # def content_similarity():
-#     tfidf_matrix = sparse.load_npz('des_tfidf_matrix.npz')
+#     tfidf_matrix = sparse.load_npz('data/des_tfidf_matrix.npz')
 #     similarities_tfidf = cosine_similarity(tfidf_matrix, dense_output=False)
 #     return similarities_tfidf
 # # Content similarity
@@ -37,7 +37,7 @@ df_book_item = load_data("children_book_collab.csv")
 
 @st.cache
 def collab_similarity():
-    book_user_matrix = sparse.load_npz('book_user_matrix.npz')
+    book_user_matrix = sparse.load_npz('data/book_user_matrix.npz')
     similarities_item = cosine_similarity(book_user_matrix, dense_output=False)
     return similarities_item
 # Collaborative similarity
@@ -138,6 +138,7 @@ fig_collab = collaborative_recommender(title)
 st.pyplot(fig_collab)
 
 
+st.write('Welcome feedback and advice, please email me: shuo.2020@outlook.com')
 
 st.write('Silei Huo | BrainStation Data Science | Vancouver')
   
