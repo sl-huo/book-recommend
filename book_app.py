@@ -24,16 +24,16 @@ def load_data(path):
     df = pd.read_csv(path)
     return df
 
-# df_book = load_data("data/children_book_processed_wauthor.csv")
+df_book = load_data("data/children_book_processed.csv")
 df_book_item = load_data("data/children_book_collab.csv")
 
-# @st.cache
-# def content_similarity():
-#     tfidf_matrix = sparse.load_npz('data/des_tfidf_matrix.npz')
-#     similarities_tfidf = cosine_similarity(tfidf_matrix, dense_output=False)
-#     return similarities_tfidf
-# # Content similarity
-# similarities_tfidf = content_similarity()
+@st.cache
+def content_similarity():
+    tfidf_matrix = sparse.load_npz('data/des_tfidf_matrix.npz')
+    similarities_tfidf = cosine_similarity(tfidf_matrix, dense_output=False)
+    return similarities_tfidf
+# Content similarity
+similarities_tfidf = content_similarity()
 
 @st.cache
 def collab_similarity():
@@ -44,43 +44,43 @@ def collab_similarity():
 similarities_item = collab_similarity()
 
 # Content Based Function
-# def content_recommender(title, vote_threshold=100):
+def content_recommender(title, vote_threshold=100):
     
-#     title = str(title)
+    title = str(title)
     
-#     if df_book['title'].str.contains(title, case=False).any():
+    if df_book['title'].str.contains(title, case=False).any():
         
-#         book_index = df_book[df_book['title'].str.contains(title, case=False)].sort_values(by='ratings_count',ascending=False).index[0]
+        book_index = df_book[df_book['title'].str.contains(title, case=False)].sort_values(by='ratings_count',ascending=False).index[0]
         
-#         sim_books = pd.DataFrame({'book': df_book['title'], 
-#                                'similarity': np.array(similarities_tfidf[book_index, :].todense()).squeeze(),
-#                            'rating count': df_book['ratings_count'],
-#                            'rating': df_book['average_rating'],
-#                            'url': df_book['image_url']})
+        sim_books = pd.DataFrame({'book': df_book['title'], 
+                               'similarity': np.array(similarities_tfidf[book_index, :].todense()).squeeze(),
+                           'rating count': df_book['ratings_count'],
+                           'rating': df_book['average_rating'],
+                           'url': df_book['image_url']})
         
-#         top_books = sim_books[sim_books['rating count'] > vote_threshold].sort_values(by='similarity', ascending=False).head(5)
+        top_books = sim_books[sim_books['rating count'] > vote_threshold].sort_values(by='similarity', ascending=False).head(5)
         
-#         fig, axs = plt.subplots(1, 5,figsize=(12,3))
-#         # fig.suptitle('You may also like these books', size = 12, color='indigo')
+        fig, axs = plt.subplots(1, 5,figsize=(12,3))
+        # fig.suptitle('You may also like these books', size = 12, color='indigo')
         
-#         for i in range(len(top_books['book'].tolist())):
-#             url = top_books.iloc[i]['url']
-#             im = Image.open(requests.get(url, stream=True).raw)
-#             axs[i].imshow(im)
-#             axs[i].axis("off")
-#             axs[i].set_title('Rating: {}'.format(top_books.iloc[i]['rating']),y=-0.18,color="indigo",fontsize=10)
-#     else:
-#         pop_df = df_book[df_book['ratings_count'] > 50000][['title', 'average_rating', 'image_url']].sort_values(by='average_rating', ascending=False).head(5)
+        for i in range(len(top_books['book'].tolist())):
+            url = top_books.iloc[i]['url']
+            im = Image.open(requests.get(url, stream=True).raw)
+            axs[i].imshow(im)
+            axs[i].axis("off")
+            axs[i].set_title('Rating: {}'.format(top_books.iloc[i]['rating']),y=-0.18,color="indigo",fontsize=10)
+    else:
+        pop_df = df_book[df_book['ratings_count'] > 50000][['title', 'average_rating', 'image_url']].sort_values(by='average_rating', ascending=False).head(5)
         
-#         fig, axs = plt.subplots(1, 5,figsize=(12,3))
-#         fig.suptitle('Can not find the book, please check spelling. \nRecommend below popular books for you:', size = 12, color='indigo')
+        fig, axs = plt.subplots(1, 5,figsize=(12,3))
+        fig.suptitle('Can not find the book, please check spelling. \nRecommend below popular books for you:', size = 12, color='indigo')
         
-#         for i in range(len(pop_df['title'].tolist())):
-#             url = pop_df.iloc[i]['image_url']
-#             im = Image.open(requests.get(url, stream=True).raw)
-#             axs[i].imshow(im)
-#             axs[i].axis("off")
-#             axs[i].set_title('Rating: {}'.format(pop_df.iloc[i]['average_rating']),y=-0.18,color="indigo",fontsize=10)
+        for i in range(len(pop_df['title'].tolist())):
+            url = pop_df.iloc[i]['image_url']
+            im = Image.open(requests.get(url, stream=True).raw)
+            axs[i].imshow(im)
+            axs[i].axis("off")
+            axs[i].set_title('Rating: {}'.format(pop_df.iloc[i]['average_rating']),y=-0.18,color="indigo",fontsize=10)
             
 
 # User-Item Based Function
@@ -128,9 +128,9 @@ title = st.text_input('Enter the book you like', 'the very hungry caterpillar')
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 ## Content Based
-# st.subheader('You may also like these books:')  
-# fig_content = content_recommender(title)
-# st.pyplot(fig_content)
+st.subheader('You may also like these books:')  
+fig_content = content_recommender(title)
+st.pyplot(fig_content)
 
 ## User Based
 st.subheader('Readers also liked these books:')   
