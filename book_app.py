@@ -24,7 +24,7 @@ def load_data(path):
     df = pd.read_csv(path)
     return df
 
-df_book = load_data("data/children_book_processed.csv")
+df_book = load_data("data/children_book_processed_sub.csv")
 df_book_item = load_data("data/children_book_collab.csv")
 
 @st.cache
