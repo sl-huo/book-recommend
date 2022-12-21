@@ -131,7 +131,7 @@ def collaborative_recommender(title, vote_threshold=100):
             
 
 
-title = st.text_input('Enter the book you like', 'the very hungry caterpillar')
+title = st.text_input('Enter the book you like:\n(please note that due to limited resources, this book dataset may not include all the books you like)', 'the very hungry caterpillar')
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 ## Content Based
