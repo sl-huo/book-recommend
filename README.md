@@ -3,6 +3,9 @@
 ## Project Background
 How to support non-native speaker parents to find the most suitable books for their children? How to help them search for books in a much easier and simpler way?
 
+## Recommendation Mini-APP
+
+[Children's Book Recommendation](https://sileihuo-book-recommend-childrens.streamlit.app/)
 
 ## Dataset
 
@@ -28,6 +31,4 @@ Processed data size (dataset is reduced due to limited resources): 1M reviews, ~
 - **User-Item Collaborative Recommendation**: Analyze similarity between each book pair based on **user rating** record, recommend top ranked books for unknown users;
 - **FunkSVD Recommendation**: **Predict rating** for each book that user haven't read before, and recommend top ranked books to specific known user;
 
-## Recommendation Mini-APP
 
-[Children's Book Recommendation](https://sileihuo-book-recommend-childrens.streamlit.app/)
