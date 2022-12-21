@@ -24,24 +24,31 @@ def load_data(path):
     df = pd.read_csv(path)
     return df
 
-df_book = load_data("data/children_book_processed_sub.csv")
+df_book = load_data("data/children_book_processed.csv")
 df_book_item = load_data("data/children_book_collab.csv")
 
 @st.cache
-def content_similarity():
-    tfidf_matrix = sparse.load_npz('data/des_tfidf_matrix.npz')
-    similarities_tfidf = cosine_similarity(tfidf_matrix, dense_output=False)
-    return similarities_tfidf
-# Content similarity
-similarities_tfidf = content_similarity()
+def load_matrix(path):
+    matrix = sparse.load_npz(path)
+    return matrix
 
-@st.cache
-def collab_similarity():
-    book_user_matrix = sparse.load_npz('data/book_user_matrix.npz')
-    similarities_item = cosine_similarity(book_user_matrix, dense_output=False)
-    return similarities_item
-# Collaborative similarity
-similarities_item = collab_similarity()
+desfull_tfidf_matrix = load_matrix('data/desfull_tfidf_matrix.npz')
+book_user_matrix = load_matrix('data/book_user_matrix.npz')
+
+# def content_similarity():
+#     tfidf_matrix = sparse.load_npz('data/desfull_tfidf_matrix.npz')
+#     similarities_tfidf = cosine_similarity(tfidf_matrix, dense_output=False)
+#     return similarities_tfidf
+# # Content similarity
+# similarities_tfidf = content_similarity()
+
+# @st.cache
+# def collab_similarity():
+#     book_user_matrix = sparse.load_npz('data/book_user_matrix.npz')
+#     similarities_item = cosine_similarity(book_user_matrix, dense_output=False)
+#     return similarities_item
+# # Collaborative similarity
+# similarities_item = collab_similarity()
 
 # Content Based Function
 def content_recommender(title, vote_threshold=100):
@@ -53,7 +60,7 @@ def content_recommender(title, vote_threshold=100):
         book_index = df_book[df_book['title'].str.contains(title, case=False)].sort_values(by='ratings_count',ascending=False).index[0]
         
         sim_books = pd.DataFrame({'book': df_book['title'], 
-                               'similarity': np.array(similarities_tfidf[book_index, :].todense()).squeeze(),
+                               'similarity': cosine_similarity(desfull_tfidf_matrix[book_index], desfull_tfidf_matrix).squeeze(),
                            'rating count': df_book['ratings_count'],
                            'rating': df_book['average_rating'],
                            'url': df_book['image_url']})
@@ -93,7 +100,7 @@ def collaborative_recommender(title, vote_threshold=100):
         book_index = df_book_item[df_book_item['title'].str.contains(title, case=False)].sort_values(by='ratings_count',ascending=False).index[0]
         
         sim_item_df = pd.DataFrame({'book': df_book_item['title'], 
-                           'similarity': np.array(similarities_item[book_index, :].todense()).squeeze(),
+                           'similarity': cosine_similarity(book_user_matrix[book_index], book_user_matrix).squeeze(),
                            'rating count': df_book_item['ratings_count'],
                            'rating': df_book_item['average_rating'],
                            'url': df_book_item['image_url']})
@@ -128,17 +135,16 @@ title = st.text_input('Enter the book you like', 'the very hungry caterpillar')
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 ## Content Based
-st.subheader('You may also like these books:')  
+st.subheader('You may also like these books:\n (content based recommendation)')  
 fig_content = content_recommender(title)
 st.pyplot(fig_content)
 
 ## User Based
-st.subheader('Readers also liked these books:')   
+st.subheader('Readers also liked these books:\n (collaborative based recommendation)')   
 fig_collab = collaborative_recommender(title)
 st.pyplot(fig_collab)
 
-
+st.write("##")
 st.write('Welcome feedback and advice, please email me: shuo.2020@outlook.com')
-
 st.write('Silei Huo | BrainStation Data Science | Vancouver')
   
