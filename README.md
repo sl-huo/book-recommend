@@ -18,7 +18,9 @@ Processed data size (dataset is reduced due to limited resources): 1M reviews, ~
 
 **NLP(Book Description)**: Conducted word vectorization using **TFIDF** & **NLTK WordNetLemmatizer** on each book's description text data
 
-
+<p align="center">
+<img src="image/book_word_cloud.png" width="750" height="400" />
+</p>
 
 ## Recommendation Systems
 
@@ -26,3 +28,6 @@ Processed data size (dataset is reduced due to limited resources): 1M reviews, ~
 - **User-Item Collaborative Recommendation**: Analyze similarity between each book pair based on **user rating** record, recommend top ranked books for unknown users;
 - **FunkSVD Recommendation**: **Predict rating** for each book that user haven't read before, and recommend top ranked books to specific known user;
 
+## Recommendation Mini-APP
+
+[Children's Book Recommendation](https://sileihuo-book-recommend-childrens.streamlit.app/)
