@@ -1,7 +1,6 @@
 
 import pandas as pd
-#import os
-import numpy as np
+#import numpy as np
 import requests
 from PIL import Image
 import matplotlib.pyplot as plt
@@ -50,23 +49,23 @@ book_user_matrix = load_matrix('data/book_user_matrix.npz')
 # # Collaborative similarity
 # similarities_item = collab_similarity()
 
-# Content Based Function
+### Content Based Recommendation
 def content_recommender(title, vote_threshold=100):
     
     title = str(title)
-    
+    # check if title exists in dataset
     if df_book['title'].str.contains(title, case=False).any():
-        
+        # locate the book's index
         book_index = df_book[df_book['title'].str.contains(title, case=False)].sort_values(by='ratings_count',ascending=False).index[0]
-        
+        # create a book dataframe with key features
         sim_books = pd.DataFrame({'book': df_book['title'], 
                                'similarity': cosine_similarity(desfull_tfidf_matrix[book_index], desfull_tfidf_matrix).squeeze(),
                            'rating count': df_book['ratings_count'],
                            'rating': df_book['average_rating'],
                            'url': df_book['image_url']})
-        
+        # select top 5 books with highest similarity score
         top_books = sim_books[sim_books['rating count'] > vote_threshold].sort_values(by='similarity', ascending=False).head(5)
-        
+        # plot the book cover
         fig, axs = plt.subplots(1, 5,figsize=(12,3))
         # fig.suptitle('You may also like these books', size = 12, color='indigo')
         
@@ -77,10 +76,11 @@ def content_recommender(title, vote_threshold=100):
             axs[i].axis("off")
             axs[i].set_title('Rating: {}'.format(top_books.iloc[i]['rating']),y=-0.18,color="indigo",fontsize=10)
     else:
+        # if book title does not exist, recommend top rated books
         pop_df = df_book[df_book['ratings_count'] > 50000][['title', 'average_rating', 'image_url']].sort_values(by='average_rating', ascending=False).head(5)
-        
-        fig, axs = plt.subplots(1, 5,figsize=(12,3))
-        fig.suptitle('Can not find the book, please check spelling. \nRecommend below popular books for you:', size = 12, color='indigo')
+        # plot book cover images
+        fig, axs = plt.subplots(1, 5, figsize=(12,3))
+        fig.suptitle('Can not find the book in this dataset, please check spelling. Recommend popular books for you:', size = 12, color='indigo')
         
         for i in range(len(pop_df['title'].tolist())):
             url = pop_df.iloc[i]['image_url']
@@ -90,7 +90,7 @@ def content_recommender(title, vote_threshold=100):
             axs[i].set_title('Rating: {}'.format(pop_df.iloc[i]['average_rating']),y=-0.18,color="indigo",fontsize=10)
             
 
-# User-Item Based Function
+### User-Item Collaborative Based Recommendation
 def collaborative_recommender(title, vote_threshold=100):
     
     title = str(title)
@@ -98,13 +98,13 @@ def collaborative_recommender(title, vote_threshold=100):
     if df_book_item['title'].str.contains(title, case=False).any():
         
         book_index = df_book_item[df_book_item['title'].str.contains(title, case=False)].sort_values(by='ratings_count',ascending=False).index[0]
-        
+        # calculate cosine similarity based on user-item matrix instead
         sim_item_df = pd.DataFrame({'book': df_book_item['title'], 
                            'similarity': cosine_similarity(book_user_matrix[book_index], book_user_matrix).squeeze(),
                            'rating count': df_book_item['ratings_count'],
                            'rating': df_book_item['average_rating'],
                            'url': df_book_item['image_url']})
-        # Get the top 5 books with > 100 votes
+        
         top_books = sim_item_df[sim_item_df['rating count'] > vote_threshold].sort_values(by='similarity', ascending=False).head(5)
 
         fig, axs = plt.subplots(1, 5,figsize=(12,3))
@@ -120,7 +120,7 @@ def collaborative_recommender(title, vote_threshold=100):
         pop_df = df_book_item[df_book_item['ratings_count'] > 50000][['title', 'average_rating', 'image_url']].sort_values(by='average_rating', ascending=False).head(5)
         
         fig, axs = plt.subplots(1, 5,figsize=(12,3))
-        fig.suptitle('Can not find the book, please check spelling. \nRecommend below popular books for you:', size = 12, color='indigo')
+        fig.suptitle('Can not find the book in this dataset, please check spelling. Recommend popular books for you:', size = 12, color='indigo')
         
         for i in range(len(pop_df['title'].tolist())):
             url = pop_df.iloc[i]['image_url']
@@ -134,12 +134,12 @@ def collaborative_recommender(title, vote_threshold=100):
 title = st.text_input('Enter the book you like:\n(please note that due to limited resources, this book dataset may not include all the books you like)', 'the very hungry caterpillar')
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
-## Content Based
+### Content Based
 st.subheader('You may also like these books:\n (content based recommendation)')  
 fig_content = content_recommender(title)
 st.pyplot(fig_content)
 
-## User Based
+### Collaborative Based
 st.subheader('Readers also liked these books:\n (collaborative based recommendation)')   
 fig_collab = collaborative_recommender(title)
 st.pyplot(fig_collab)
@@ -147,4 +147,4 @@ st.pyplot(fig_collab)
 st.write("##")
 st.write('Welcome feedback and advice, please email me: shuo.2020@outlook.com')
 st.write('Silei Huo | BrainStation Data Science | Vancouver')
-  
+
