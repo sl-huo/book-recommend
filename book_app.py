@@ -133,14 +133,14 @@ def main():
         show_book(book_title)
         
         ### Content Based
-        st.subheader('You may also like these books:\n (content based recommendation)')  
+        st.subheader('You may also like these books:\n (Recommendations based on book\'s description text)')  
         top_books_content=content_recommender(book_title)
         cols= st.columns(5)
         for url, title, col in zip(top_books_content['image_url'], top_books_content['title'], cols[0:]):
             with col:
                 st.image(url, use_column_width=True, caption=title)
         ### Collaborative Based
-        st.subheader('Readers also liked these books:\n (collaborative based recommendation)')   
+        st.subheader('Readers also liked these books:\n (Recommendations based on reader\'s ratings)')   
         top_books_collab = collaborative_recommender(book_title)
         cols=st.columns(5)
         for url, title, col in zip(top_books_collab['image_url'], top_books_collab['title'], cols[0:]):
