@@ -113,7 +113,7 @@ def author_recommender(author, vote_threshold=50):
         cols= st.columns(5)
         for url, title, col in zip(top_books['image_url'], top_books['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True, caption=title)
+                st.image(url, use_column_width='auto', caption=title)
     else:
         st.write('Sorry, no author found by that name. Please try again.')
 
@@ -127,7 +127,7 @@ def main():
     choice = st.sidebar.selectbox("Choose recommendation methods below",menu)
     
     if choice == 'Search by Book Title':
-        st.subheader('Recommend by Book Title')
+        st.header('Recommend by Book Title')
         st.write('Please note that due to limited resources, this dataset does not include a comprehensive list of titles.')
         book_title = st.text_input('Enter a book you like:', 'the very hungry caterpillar')
         show_book(book_title)
@@ -138,18 +138,18 @@ def main():
         cols= st.columns(5)
         for url, title, col in zip(top_books_content['image_url'], top_books_content['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True, caption=title)
+                st.image(url, use_column_width='auto', caption=title)
         ### Collaborative Based
         st.subheader('Readers also liked these books:\n (Recommendations based on reader\'s ratings)')   
         top_books_collab = collaborative_recommender(book_title)
         cols=st.columns(5)
         for url, title, col in zip(top_books_collab['image_url'], top_books_collab['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True, caption=title)
+                st.image(url, use_column_width='auto', caption=title)
     
     else:
         ### Author Recommendation
-        st.subheader('Recommend by Author')
+        st.header('Recommend by Author')
         st.write('Please note that due to limited resources, this dataset does not include a comprehensive list of authors.')
         author_like = st.text_input('Enter an author you like:', 'Dr. Seuss')
         author_recommender(author_like)
