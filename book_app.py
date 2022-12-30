@@ -113,7 +113,7 @@ def author_recommender(author, vote_threshold=50):
         cols= st.columns(5)
         for url, title, col in zip(top_books['image_url'], top_books['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width='auto', caption=title)
+                st.image(url, use_column_width=True, caption=title)
     else:
         st.write('Sorry, no author found by that name. Please try again.')
 
@@ -138,14 +138,14 @@ def main():
         cols= st.columns(5)
         for url, title, col in zip(top_books_content['image_url'], top_books_content['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width='auto', caption=title)
+                st.image(url, use_column_width=True, caption=title)
         ### Collaborative Based
         st.subheader('Readers also liked these books:\n (Recommendations based on reader\'s ratings)')   
         top_books_collab = collaborative_recommender(book_title)
         cols=st.columns(5)
         for url, title, col in zip(top_books_collab['image_url'], top_books_collab['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width='auto', caption=title)
+                st.image(url, use_column_width=True, caption=title)
     
     else:
         ### Author Recommendation
