@@ -198,6 +198,7 @@ if __name__ == '__main__':
     main()
 
 st.write("##")
+st.markdown("""---""")
 st.write('Feedback and advice is welcome, please email me: shuo.2020@outlook.com')
 st.write('Silei Huo | BrainStation Data Science | Vancouver | 2022')
 
