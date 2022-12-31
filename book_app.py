@@ -104,7 +104,7 @@ def author_recommender(author, vote_threshold=50):
         cols= st.columns(5)
         for url, title, col in zip(top_books['image_url'], top_books['title'], cols[0:]):
             with col:
-                st.image(url, width=120, use_column_width='auto', caption=title)
+                st.image(url, use_column_width=True, caption=title)
     else:
         st.write('Sorry, no author found by that name. Please try again.')
 
@@ -119,7 +119,7 @@ def user_recommender(user):
         cols= st.columns(5)
         for url, title, col in zip(recommend_books['image_url'], recommend_books['title'], cols[0:]):
             with col:
-                st.image(url, width=120, use_column_width='auto', caption=title)
+                st.image(url, use_column_width=True, caption=title)
     else:
         st.write('Sorry, no user found by that id. Please try again.')
 
@@ -130,7 +130,7 @@ def user_profile(user):
         cols=st.columns(10)
         for url, title, col in zip(toprated_books['image_url'], toprated_books['title'], cols[0:]):
             with col:
-                st.image(url, width=100, use_column_width='auto')
+                st.image(url, use_column_width=True)
     else:
         st.write('Sorry, no user found by that id. Please try again.')
 
@@ -152,19 +152,19 @@ def main():
         show_book(book_title)
         
         ### Content Based
-        st.subheader('You may also like these books:\n (Recommendations based on book\'s description text)')  
+        st.subheader('You may also like these books:\n (Recommendations based on book\'s description text - Content-Based Model)')  
         top_books_content=content_recommender(book_title)
         cols= st.columns(5)
         for url, title, col in zip(top_books_content['image_url'], top_books_content['title'], cols[0:]):
             with col:
-                st.image(url, width=120, use_column_width='auto', caption=title)
+                st.image(url, use_column_width=True, caption=title)
         ### Collaborative Based
-        st.subheader('Readers also liked these books:\n (Recommendations based on reader\'s ratings)')   
+        st.subheader('Readers also liked these books:\n (Recommendations based on reader\'s ratings - Collaborative Model)')   
         top_books_collab = collaborative_recommender(book_title)
         cols=st.columns(5)
         for url, title, col in zip(top_books_collab['image_url'], top_books_collab['title'], cols[0:]):
             with col:
-                st.image(url, width=120, use_column_width='auto',caption=title)
+                st.image(url, use_column_width=True, caption=title)
     
     with tab2:
         ### Author Recommendation
@@ -198,6 +198,6 @@ if __name__ == '__main__':
     main()
 
 st.write("##")
-st.write('Welcome feedback and advice, please email me: shuo.2020@outlook.com')
-st.write('Silei Huo | BrainStation Data Science | Vancouver')
+st.write('Feedback and advice is welcome, please email me: shuo.2020@outlook.com')
+st.write('Silei Huo | BrainStation Data Science | Vancouver | 2022')
 
