@@ -42,7 +42,7 @@ def show_book(title):
     if df_book['title'].str.contains(title, case=False).any():
         book_index = df_book[df_book['title'].str.contains(title, case=False)].sort_values(by='ratings_count',ascending=False).index[0]
         url = df_book.iloc[book_index]['image_url']
-        st.image(url, width =180, use_column_width='auto', caption=df_book.iloc[book_index]['title'])
+        st.image(url, width =150, use_column_width=False, caption=df_book.iloc[book_index]['title'])
     else:
         st.write('Sorry, book not found. Instead, below are some recommended popular books.')
 
@@ -104,7 +104,7 @@ def author_recommender(author, vote_threshold=50):
         cols= st.columns(5)
         for url, title, col in zip(top_books['image_url'], top_books['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True, caption=title)
+                st.image(url, width=120, caption=title)
     else:
         st.write('Sorry, no author found by that name. Please try again.')
 
@@ -119,7 +119,7 @@ def user_recommender(user):
         cols= st.columns(5)
         for url, title, col in zip(recommend_books['image_url'], recommend_books['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True, caption=title)
+                st.image(url, width=120, caption=title)
     else:
         st.write('Sorry, no user found by that id. Please try again.')
 
@@ -130,7 +130,7 @@ def user_profile(user):
         cols=st.columns(10)
         for url, title, col in zip(toprated_books['image_url'], toprated_books['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True)
+                st.image(url, width=60)
     else:
         st.write('Sorry, no user found by that id. Please try again.')
 
@@ -157,14 +157,14 @@ def main():
         cols= st.columns(5)
         for url, title, col in zip(top_books_content['image_url'], top_books_content['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True, caption=title)
+                st.image(url, width=120, use_column_width=False, caption=title)
         ### Collaborative Based
         st.subheader('Readers also liked these books:\n (Recommendations based on reader\'s ratings)')   
         top_books_collab = collaborative_recommender(book_title)
         cols=st.columns(5)
         for url, title, col in zip(top_books_collab['image_url'], top_books_collab['title'], cols[0:]):
             with col:
-                st.image(url, use_column_width=True, caption=title)
+                st.image(url, width=120, use_column_width=False,caption=title)
     
     with tab2:
         ### Author Recommendation
