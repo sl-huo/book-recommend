@@ -198,8 +198,6 @@ st.write('''<style>
 }
 </style>''', unsafe_allow_html=True)
 
-if __name__ == '__main__':
-    main()
 
 st.markdown("""---""")
 st.caption('Feedback and advice is welcome, please email me: shuo.2020@outlook.com')
