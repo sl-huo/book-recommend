@@ -199,6 +199,6 @@ st.write('''<style>
 
 
 st.markdown("""---""")
-st.caption('Feedback and advice is welcome, please contact me [here].(https://www.linkedin.com/in/silei-huo/)')
+st.caption('Feedback and advice is welcome, please contact me [here](https://www.linkedin.com/in/silei-huo/).')
 st.caption('Silei H. | Data Science | Vancouver | 2022')
 
