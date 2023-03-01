@@ -5,7 +5,9 @@ How to support non-native speaker parents to find the most suitable books for th
 
 ## Recommendation Mini-APP
 
-[Children's Book Recommendation](https://sileihuo-book-recommend-childrens.streamlit.app/)
+[Children's Book Recommendation](https://sh-children-book-recommend.streamlit.app/)
+:-------------------------:
+![1]("image/bookapp.jpeg")
 
 ## Dataset
 
