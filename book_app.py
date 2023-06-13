@@ -136,21 +136,21 @@ def user_profile(user):
 
 ######################################################################
 ### APP Presense
-st.title("Children's Book Recommendation\n 英语儿童书籍推荐")
+st.title("Children's Book Recommendation")
 image = load_image('https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80')
 st.image(image, caption='Photo by Ben White on Unsplash')
 
-tab1, tab2, tab3 = st.tabs(["Search by Book Title\n 按书名搜索", "Search by Author\n 按作者搜索", "Recommend to Existing Users\n 读者推荐"])
+tab1, tab2, tab3 = st.tabs(["Search by Book Title", "Search by Author", "Recommend to Existing Users"])
 
 with tab1:
     st.header('Recommend by Book Title')
     st.caption('Please note that due to limited resources, this dataset does not include a comprehensive list of titles.')
-    st.subheader('Enter a book you like:\n请输入你一本你喜欢的书名:')
+    st.subheader('Enter a book you like:')
     book_title = st.text_input('Enter a book you like:', 'the very hungry caterpillar', label_visibility="collapsed")
     show_book(book_title)
         
     ### Content Based
-    st.subheader('You may also like these books:\n你可能会喜欢以下类似书籍:')  
+    st.subheader('You may also like these books:')  
     top_books_content=content_recommender(book_title)
     cols= st.columns(5)
     for url, title, col in zip(top_books_content['image_url'], top_books_content['title'], cols[0:]):
@@ -158,7 +158,7 @@ with tab1:
             st.image(url, use_column_width=True, caption=title)
     st.markdown(':bulb: Above recommendations based on book\'s description text - Content Based Model')
     ### Collaborative Based
-    st.subheader('Readers also liked these books:\n喜欢这本的读者还喜欢以下书籍:')
+    st.subheader('Readers also liked these books:')
     top_books_collab = collaborative_recommender(book_title)
     cols=st.columns(5)
     for url, title, col in zip(top_books_collab['image_url'], top_books_collab['title'], cols[0:]):
@@ -170,21 +170,21 @@ with tab2:
     ### Author Recommendation
     st.header('Recommend by Author')
     st.caption('Please note that due to limited resources, this dataset does not include a comprehensive list of authors.')
-    st.subheader('Enter an author you like:\n请输入一位你喜欢的作者:')
+    st.subheader('Enter an author you like:')
     author_like = st.text_input('Enter an author you like:', 'Eric Carle', label_visibility="collapsed")
-    st.markdown(f'You may like these books from {author_like}, 你可能会喜欢{author_like}的这些书籍:')
+    st.markdown(f'You may like these books from {author_like}:')
     author_recommender(author_like)
 
 with tab3:
     ### User Recommendation
     st.header('Recommend to Existing Users')
     st.markdown('Recommendations based on user\'s current rating profile by using FunkSVD')
-    st.subheader('Please enter your user id:\n请输入你的用户号:')
+    st.subheader('Please enter your user id:')
     st.caption('Please note that due to limited resources, here only shows a subsample. User ID is adjusted to numbers from 1 to 3300.')
     user_id = st.number_input('', min_value=1, max_value=3342, label_visibility="collapsed")
-    st.subheader('You may also like these books:\n你可能会喜欢这些书籍:')
+    st.subheader('You may also like these books:')
     user_recommender(str(user_id))
-    st.subheader('Your rated books:\n你已阅读并喜欢的书籍:')
+    st.subheader('Your rated books:')
     user_profile(user_id)
 
 st.write('''<style>
@@ -200,5 +200,5 @@ st.write('''<style>
 
 st.markdown("""---""")
 st.caption('Feedback and advice is welcome, please contact me [here](https://www.linkedin.com/in/silei-huo/).')
-st.caption('Silei H. | Data Science | Vancouver | 2022')
+st.caption('S Huo | Data Science | Canada | 2022')
 
