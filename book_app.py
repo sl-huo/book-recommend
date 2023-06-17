@@ -137,7 +137,7 @@ def user_profile(user):
 ######################################################################
 ### APP Presense
 st.title("Children's Book Recommendation")
-image = load_image('https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80')
+image = load_image('https://github.com/sl-huo/book-recommend/blob/main/image/frontimage.jpeg?raw=true')
 st.image(image, caption='Photo by Ben White on Unsplash')
 
 tab1, tab2, tab3 = st.tabs(["Search by Book Title", "Search by Author", "Recommend to Existing Users"])
